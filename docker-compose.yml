@@ -1,0 +1,14 @@
+services:
+  static-dns-dev:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    volumes:
+        - ./:/workspace
+        - static-dns-dev-vsc:/root/.vscode-server
+        - ~/.ssh:/root/.ssh
+    stdin_open: true
+    tty: true
+
+volumes:
+  static-dns-dev-vsc:

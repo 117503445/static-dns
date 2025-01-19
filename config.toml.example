@@ -1,0 +1,3 @@
+[[rules]]
+pattern = "*example.com"
+dest = "192.168.100.1"

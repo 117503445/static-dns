@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  default:
+    desc: "The default task" 
+    cmds:
+      - docker compose up -d
+
+  build:
+    desc: "Build the project"
+    cmds:
+      - ./scripts/build.sh
