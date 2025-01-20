@@ -23,6 +23,8 @@ func NewServer() *DNSServer {
 
 		names := []string{}
 
+		// TODO: Handle _acme-challenge
+
 		for _, q := range resp.Question {
 			names = append(names, q.Name)
 			if q.Qtype == dns.TypeA {
