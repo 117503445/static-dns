@@ -62,7 +62,6 @@ func HandleStatic(domain string) (dest string) {
 
 func NewServer() *DNSServer {
 	dns.HandleFunc(".", func(w dns.ResponseWriter, r *dns.Msg) {
-		// log.Info().Msg("Got request")
 		resp := new(dns.Msg)
 		resp.SetReply(r)
 		resp.Authoritative = true
@@ -70,32 +69,28 @@ func NewServer() *DNSServer {
 		names := []string{}
 
 		// TODO: Handle _acme-challenge
-
 		for _, q := range resp.Question {
 			names = append(names, q.Name)
 			if q.Qtype == dns.TypeA {
 				var err error
 				dest := HandleStatic(q.Name)
-				if dest == "" {
-					dest, err = HandleOutbound(q.Name)
-					if err != nil {
-						log.Warn().Err(err).Msg("")
-					} else {
-						if dest != "" {
-							log.Info().Str("name", q.Name).Str("dest", dest).Msg("by outbound")
-						}
-					}
-				} else {
+				if dest != "" {
 					log.Info().Str("name", q.Name).Str("dest", dest).Msg("by static")
+				} else {
+					dest, err = HandleOutbound(q.Name)
+					if err != nil || dest != "" {
+						log.Warn().Err(err).Msg("failed to get by outbound")
+					} else {
+						log.Info().Str("name", q.Name).Str("dest", dest).Msg("by outbound")
+					}
 				}
+
 				if dest != "" {
 					a := &dns.A{
 						Hdr: dns.RR_Header{Name: q.Name, Rrtype: dns.TypeA, Class: dns.ClassINET, Ttl: 60},
 						A:   net.ParseIP(dest),
 					}
 					resp.Answer = append(resp.Answer, a)
-				} else {
-					log.Info().Str("name", q.Name).Str("dest", dest).Msg("not found")
 				}
 			}
 		}
