@@ -1,1 +1,1 @@
-dig @127.0.0.1 -p 5053 a.example.com
+dig @127.0.0.1 -p 5053 router.lan
