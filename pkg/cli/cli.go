@@ -8,6 +8,6 @@ type Rule struct {
 
 var Cli struct {
 	Port     int     `default:"5053" help:"Port to listen."`
-	Upstream string  `default:"223.5.5.5:53" help:"Upstream DNS server, not implemented yet."`
+	Upstream string  `default:"223.5.5.5:53" help:"Upstream DNS server"`
 	Rules    []*Rule `help:"Rules to match."`
 }

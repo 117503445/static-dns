@@ -1,0 +1,9 @@
+name: static-dns
+
+services:
+  static-dns:
+    image: 117503445/static-dns
+    ports:
+      - "5053:5053"
+    volumes:
+      - ./config/config.toml:/workspace/config.toml

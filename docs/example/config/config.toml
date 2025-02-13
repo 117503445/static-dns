@@ -1,0 +1,6 @@
+# port = 5053
+# upstream = "223.5.5.5:53"
+
+[[rules]]
+pattern = "*router.lan"
+dest = "192.168.1.1"
